@@ -1,48 +1,683 @@
-<DOCKTYPE html>
-  <html>
-    <heard>
-      <title>My portfolio</title>
-    </heard>
-    <body>
-      <a href="https://t.me/haikyuu_in_Tamils"<img src="https://t.me/haikyuu_in_Tamils">join</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Animation Demo</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: white;
+      overflow-x: hidden;
+
+      background:
+        radial-gradient(circle at 20% 20%, #5b21b6, transparent 35%),
+        radial-gradient(circle at 80% 30%, #0369a1, transparent 35%),
+        linear-gradient(135deg, #020617, #0f172a, #111827);
+
+      background-size: 200% 200%;
+      animation: backgroundMove 10s ease infinite;
+    }
+
+    /* Background animation */
+    @keyframes backgroundMove {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Mouse glow */
+    .mouse-glow {
+      position: fixed;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+
+      background: radial-gradient(
+        circle,
+        rgba(59, 130, 246, 0.18),
+        transparent 70%
+      );
+
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      width: min(90%, 900px);
+
+      padding: 15px 25px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(15px);
+
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #60a5fa;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      text-align: center;
+
+      padding: 100px 20px;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: clamp(45px, 8vw, 90px);
+
+      background: linear-gradient(
+        90deg,
+        #60a5fa,
+        #a78bfa,
+        #22d3ee
+      );
+
+      -webkit-background-clip: text;
+      color: transparent;
+
+      animation: titleFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes titleFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    .typing {
+      margin-top: 15px;
+      font-size: 22px;
+      color: #cbd5e1;
+      min-height: 30px;
+    }
+
+    /* Button */
+    .btn {
+      margin-top: 30px;
+
+      padding: 15px 30px;
+
+      border: none;
+      border-radius: 50px;
+
+      background: linear-gradient(
+        90deg,
+        #2563eb,
+        #7c3aed
+      );
+
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 0 20px rgba(59,130,246,0.3);
+
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-5px) scale(1.05);
+
+      box-shadow:
+        0 15px 40px rgba(59,130,246,0.4);
+    }
+
+    .btn:active {
+      transform: scale(0.9);
+    }
+
+    /* Cards section */
+    .section {
+      min-height: 100vh;
+
+      padding: 100px 20px;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    .section h2 {
+      text-align: center;
+      font-size: 45px;
+      margin-bottom: 50px;
+    }
+
+    .cards {
+      max-width: 1100px;
+      margin: auto;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+
+      gap: 25px;
+    }
+
+    .card {
+      padding: 35px;
+
+      min-height: 250px;
+
+      border-radius: 25px;
+
+      background: rgba(255,255,255,0.08);
+
+      border: 1px solid rgba(255,255,255,0.12);
+
+      backdrop-filter: blur(15px);
+
+      transition:
+        transform 0.5s,
+        box-shadow 0.5s;
+
+      opacity: 0;
+      transform: translateY(80px);
+    }
+
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform:
+        translateY(-12px)
+        rotateX(5deg)
+        rotateY(-5deg);
+
+      box-shadow:
+        0 25px 60px rgba(0,0,0,0.35);
+    }
+
+    .card .icon {
+      font-size: 50px;
+      margin-bottom: 20px;
+
+      display: inline-block;
+
+      animation:
+        iconFloat 2s ease-in-out infinite;
+    }
+
+    @keyframes iconFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(0);
+      }
+
+      50% {
+        transform: translateY(-10px) rotate(5deg);
+      }
+    }
+
+    .card h3 {
+      font-size: 25px;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #cbd5e1;
+      line-height: 1.7;
+    }
+
+    /* Floating particles */
+    .particle {
+      position: fixed;
+
+      width: 5px;
+      height: 5px;
+
+      border-radius: 50%;
+
+      background: white;
+
+      pointer-events: none;
+
+      animation: particleFloat linear infinite;
+
+      opacity: 0.5;
+    }
+
+    @keyframes particleFloat {
+      from {
+        transform:
+          translateY(110vh)
+          rotate(0deg);
+      }
+
+      to {
+        transform:
+          translateY(-10vh)
+          rotate(360deg);
+      }
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #94a3b8;
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+
+      nav {
+        padding: 12px 15px;
+      }
+
+      nav a {
+        margin-left: 8px;
+        font-size: 13px;
+      }
+
+      .hero h1 {
+        font-size: 50px;
+      }
+
+      .typing {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mouse glow -->
+  <div class="mouse-glow"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">AJMAL.DEV</div>
+
+    <div>
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+    </div>
+  </nav>
 
 
+  <!-- Hero -->
+  <section class="hero" id="home">
+
+    <h1>Creative Web</h1>
+
+    <div class="typing"></div>
+
+    <button class="btn" id="exploreBtn">
+      Explore Animation
+    </button>
+
+  </section>
 
 
+  <!-- Features -->
+  <section class="section" id="features">
+
+    <h2>Animation Features</h2>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="icon">🚀</div>
+
+        <h3>CSS Animation</h3>
+
+        <p>
+          Smooth keyframe animations,
+          hover effects and floating elements.
+        </p>
+      </div>
 
 
+      <div class="card">
+        <div class="icon">⚡</div>
+
+        <h3>JavaScript</h3>
+
+        <p>
+          JavaScript controls typing effects,
+          scroll animations and interactions.
+        </p>
+      </div>
 
 
+      <div class="card">
+        <div class="icon">✨</div>
 
-      
-    
-    
-    
-    
-    
-    
-    
-    </body>
+        <h3>Modern UI</h3>
 
-
+        <p>
+          Glassmorphism, gradients,
+          responsive cards and modern effects.
+        </p>
+      </div>
 
 
+      <div class="card">
+        <div class="icon">🎨</div>
+
+        <h3>Interactive</h3>
+
+        <p>
+          Mouse-follow glow and
+          interactive button effects.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
 
 
+  <footer>
+    Built with HTML + CSS + JavaScript
+  </footer>
 
 
+  <script>
+
+    /* =========================
+       TYPING ANIMATION
+    ========================= */
+
+    const typingText = [
+      "HTML + CSS + JavaScript",
+      "Beautiful Animations",
+      "Interactive Websites",
+      "Creative Web Development"
+    ];
+
+    const typingElement =
+      document.querySelector(".typing");
+
+    let textIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
 
 
+    function typeEffect() {
+
+      const current =
+        typingText[textIndex];
+
+      if (!deleting) {
+
+        typingElement.textContent =
+          current.substring(0, charIndex + 1);
+
+        charIndex++;
+
+        if (charIndex === current.length) {
+
+          deleting = true;
+
+          setTimeout(typeEffect, 1500);
+
+          return;
+        }
+
+      } else {
+
+        typingElement.textContent =
+          current.substring(0, charIndex - 1);
+
+        charIndex--;
+
+        if (charIndex === 0) {
+
+          deleting = false;
+
+          textIndex++;
+
+          if (textIndex >= typingText.length) {
+            textIndex = 0;
+          }
+        }
+      }
+
+      setTimeout(
+        typeEffect,
+        deleting ? 50 : 100
+      );
+    }
+
+    typeEffect();
 
 
+    /* =========================
+       MOUSE GLOW
+    ========================= */
+
+    const glow =
+      document.querySelector(".mouse-glow");
+
+    document.addEventListener("mousemove", (event) => {
+
+      glow.style.left =
+        event.clientX + "px";
+
+      glow.style.top =
+        event.clientY + "px";
+
+    });
 
 
+    /* =========================
+       SCROLL REVEAL
+    ========================= */
+
+    const cards =
+      document.querySelectorAll(".card");
 
 
+    function revealCards() {
+
+      cards.forEach((card) => {
+
+        const position =
+          card.getBoundingClientRect().top;
+
+        const screenHeight =
+          window.innerHeight;
+
+        if (position < screenHeight - 100) {
+
+          card.classList.add("show");
+
+        }
+
+      });
+
+    }
+
+    window.addEventListener(
+      "scroll",
+      revealCards
+    );
+
+    revealCards();
 
 
+    /* =========================
+       BUTTON
+    ========================= */
+
+    const button =
+      document.getElementById("exploreBtn");
+
+    button.addEventListener("click", () => {
+
+      document
+        .getElementById("features")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+    });
 
 
+    /* =========================
+       PARTICLES
+    ========================= */
 
-    
+    function createParticle() {
+
+      const particle =
+        document.createElement("div");
+
+      particle.classList.add("particle");
+
+      particle.style.left =
+        Math.random() * 100 + "vw";
+
+      particle.style.animationDuration =
+        (5 + Math.random() * 10) + "s";
+
+      particle.style.width =
+        (2 + Math.random() * 5) + "px";
+
+      particle.style.height =
+        particle.style.width;
+
+      document.body.appendChild(particle);
+
+      setTimeout(() => {
+
+        particle.remove();
+
+      }, 15000);
+    }
+
+
+    setInterval(
+      createParticle,
+      300
+    );
+
+
+    /* =========================
+       CARD 3D TILT
+    ========================= */
+
+    cards.forEach((card) => {
+
+      card.addEventListener(
+        "mousemove",
+        (event) => {
+
+          const rect =
+            card.getBoundingClientRect();
+
+          const x =
+            event.clientX - rect.left;
+
+          const y =
+            event.clientY - rect.top;
+
+          const centerX =
+            rect.width / 2;
+
+          const centerY =
+            rect.height / 2;
+
+          const rotateX =
+            (y - centerY) / 15;
+
+          const rotateY =
+            (centerX - x) / 15;
+
+          card.style.transform =
+            `perspective(800px)
+             rotateX(${rotateX}deg)
+             rotateY(${rotateY}deg)
+             translateY(-10px)`;
+
+        }
+      );
+
+
+      card.addEventListener(
+        "mouseleave",
+        () => {
+
+          card.style.transform =
+            "translateY(0)";
+
+        }
+      );
+
+    });
+
+  </script>
+
+</body>
   </html>
